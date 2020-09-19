@@ -1288,6 +1288,22 @@ config TARGET_LX2160AQDS
 	  is a high-performance development platform that supports the
 	  QorIQ LX2160A/LX2120A/LX2080A Layerscape Architecture processor.
 
+config TARGET_QSERVER
+	bool "Support qserver Platform"
+	select ARM64
+	select DM
+	select DM_GPIO
+	select DM_SERIAL
+	select DM_ETH
+	select OF_BOARD_SETUP
+	select OF_CONTROL
+	select SUPPORT_SPL
+	select PL01X_SERIAL
+	select SPECIFY_CONSOLE_INDEX
+	imply CMD_DM
+	  help
+	  Support for qserver.
+
 config TARGET_HIKEY
 	bool "Support HiKey 96boards Consumer Edition Platform"
 	select ARM64
@@ -1921,6 +1937,7 @@ source "board/xilinx/Kconfig"
 source "board/xilinx/zynq/Kconfig"
 source "board/xilinx/zynqmp/Kconfig"
 source "board/phytium/durian/Kconfig"
+source "board/qchip/qserver/Kconfig"
 
 source "arch/arm/Kconfig.debug"
 

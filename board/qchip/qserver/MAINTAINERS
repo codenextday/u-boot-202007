@@ -1,0 +1,6 @@
+QSERVER BOARD
+M:     Yuan haibo <>
+S:     Maintained
+F:     board/qchip/qserver
+F:     include/configs/qserver.h
+F:     configs/qserver_defconfig

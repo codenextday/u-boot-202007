@@ -1,0 +1,98 @@
+/*
+ * dts file for Hisilicon HiKey Development Board
+ *
+ * Copyright (C) 2015, Hisilicon Ltd.
+ *
+ */
+
+/dts-v1/;
+
+#include "qserver.dtsi"
+
+/ {
+	model = "Qserver Board";
+	compatible = "qchip,qserver";
+
+	aliases {
+		serial0 = &uart0; /* On board UART0 */
+		spi0 = &qspi;
+		mmc0 = &dwmmc0;
+		mmc1 = &sd0;
+		ethernet0 = &gmac0;
+		ethernet1 = &gmac1;
+		ethernet2 = &gmac2;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+		bootargs = "console=ttyAMA0,115200 earlycon=pl011,0x12000000 loglevel=7 init=/init";
+	};
+
+	cpus {
+		cpu-map {
+			cluster0 {
+				core0 {
+					cpu = <&cpu0>;
+			};
+			cluster1 {
+				core0 {
+					cpu = <&cpu4>;
+				};
+			};
+		};
+
+		cpu0: cpu@0 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x0>;
+			enable-method = "psci";
+		};
+
+		cpu4: cpu@100 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x100>;
+			enable-method = "psci";
+		};
+	};
+	memory@0 {
+		device_type = "memory";
+		reg = <0x0 0x40000000 0x0 0x40000000>;
+	};
+	
+	&dwmmc0 {
+		status = "disabled";
+	};
+
+	&sd0 {
+		status = "disabled";
+	};
+
+	&gmac0 {
+		status = "disabled";
+	};
+
+	&gmac1 {
+		status = "disabled";
+	};
+
+	&usb {
+		status = "disabled";
+	};
+	&usbphy0 {
+		status = "disabled";
+	};
+
+	&hdlcd {
+		status = "disabled";
+	};
+
+	&gpu {
+		status = "disabled";
+	};
+
+	&i2c0 {
+		status = "disabled";
+	};
+};
+

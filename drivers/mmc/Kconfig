@@ -263,6 +263,15 @@ config MMC_DW_SNPS
 	help
 	  This selects support for Synopsys DesignWare Memory Card Interface driver
 	  extensions used in various Synopsys ARC devboards.
+config MMC_DW_QCHIP
+	bool "QCHIP specific extensions for Synopsys DW Memory Card Interface"
+	depends on TARGET_QSERVER
+	depends on MMC_DW
+	default y
+	help
+	  This selects support for QCHIP specific extensions to the
+	  Synopsys DesignWare Memory Card Interface driver. Select this option
+	  for platforms based on QCHIP.
 
 config MMC_MESON_GX
 	bool "Meson GX EMMC controller support"

@@ -1,0 +1,24 @@
+if TARGET_QSERVER
+
+config SYS_BOARD
+	default "qserver"
+
+config SYS_VENDOR
+	default "qchip"
+
+config SYS_SOC
+	default "qserver"
+
+config SYS_CONFIG_NAME
+	default "qserver"
+
+config SYS_TEXT_BASE
+	default 0x4f000000
+#config CONS_INDEX
+#	int "UART used for console"
+#	range 1 4
+#	default 4
+#	help
+#	  The hi6220 SoC has 5 UARTs. For example to use UART0 enter 1 here.
+
+endif

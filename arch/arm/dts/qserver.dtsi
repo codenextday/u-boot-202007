@@ -1,0 +1,557 @@
+/*
+ * dts file for Hisilicon Hi6220 SoC
+ *
+ * Copyright (C) 2015, Hisilicon Ltd.
+ */
+
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+
+
+/ {
+	compatible = "qchip,qserver";
+	interrupt-parent = <&gic>;
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	psci {
+		compatible = "arm,psci-0.2";
+		method = "smc";
+	};
+
+	osc24m: osc24m {
+		compatible= "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <24000000>;
+		clock-output-names = "osc24m";
+	};
+	osc25m: osc25m {
+		compatible= "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <25000000>;
+		clock-output-names = "osc25m";
+	};
+	osc50m: osc50m {
+		compatible= "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <50000000>;
+		clock-output-names = "osc50m";
+	};
+	osc10m: osc10m {
+		compatible= "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <10000000>;
+		clock-output-names = "osc10m";
+	};
+	cpus {
+		#address-cells = <2>;
+		#size-cells = <0>;
+
+		cpu-map {
+			cluster0 {
+				core0 {
+					cpu = <&cpu0>;
+				};
+				core1 {
+					cpu = <&cpu1>;
+				};
+				/*core2 {
+					cpu = <&cpu2>;
+				};
+				core3 {
+					cpu = <&cpu3>;
+				};*/
+			};
+			/*cluster1 {
+				core0 {
+					cpu = <&cpu4>;
+				};*/
+			/*	core1 {
+					cpu = <&cpu5>;
+				};
+				core2 {
+					cpu = <&cpu6>;
+				};
+				core3 {
+					cpu = <&cpu7>;
+				};*/
+			/*};*/
+			/*cluster2 {
+				core0 {
+					cpu = <&cpu8>;
+				};
+				core1 {
+					cpu = <&cpu9>;
+				};
+				core2 {
+					cpu = <&cpu10>;
+				};
+				core3 {
+					cpu = <&cpu11>;
+				};
+			};
+			cluster3 {
+				core0 {
+					cpu = <&cpu12>;
+				};
+				core1 {
+					cpu = <&cpu13>;
+				};
+				core2 {
+					cpu = <&cpu14>;
+				};
+				core3 {
+					cpu = <&cpu15>;
+				};
+			};*/
+		};
+
+		cpu0: cpu@0 {
+			compatible = "arm,cortex-a55", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x000>;
+			enable-method = "psci";
+		};
+
+		cpu1: cpu@1 {
+			compatible = "arm,cortex-a76", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x100>;
+			enable-method = "psci";
+		};
+
+		/*cpu2: cpu@2 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x2>;
+			enable-method = "psci";
+		};
+
+		cpu3: cpu@3 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x3>;
+			enable-method = "psci";
+		};*/
+
+	/*	cpu4: cpu@100 {
+			compatible = "arm,cortex-a76", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x100>;
+			enable-method = "psci";
+		};*/
+/*
+		cpu5: cpu@101 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x101>;
+			enable-method = "psci";
+		};
+
+		cpu6: cpu@102 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x102>;
+			enable-method = "psci";
+		};
+
+		cpu7: cpu@103 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x103>;
+			enable-method = "psci";
+		};
+		cpu8: cpu@200 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x200>;
+			enable-method = "psci";
+		};
+
+		cpu9: cpu@201 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x201>;
+			enable-method = "psci";
+		};
+
+		cpu10: cpu@202 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x202>;
+			enable-method = "psci";
+		};
+
+		cpu11: cpu@203 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x203>;
+			enable-method = "psci";
+		};
+
+		cpu12: cpu@300 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x300>;
+			enable-method = "psci";
+		};
+
+		cpu13: cpu@301 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x301>;
+			enable-method = "psci";
+		};
+
+		cpu14: cpu@302 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x302>;
+			enable-method = "psci";
+		};
+
+		cpu15: cpu@303 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			reg = <0x0 0x303>;
+			enable-method = "psci";
+		};*/
+	};
+
+	/*gic: interrupt-controller@38000000 {
+		compatible = "arm,gic-v3";
+		reg = <0x0 0x38000000 0 0x10000>,
+		      <0x0 0x38080000 0 0x200000>;
+		#address-cells = <0>;
+		#interrupt-cells = <3>;
+		interrupt-controller;
+		interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_HIGH)>;
+	};*/
+
+	gic: interrupt-controller@38000000 {
+		compatible = "arm,gic-400";
+		reg = <0x0 0x38001000 0 0x1000>,
+		      <0x0 0x38002000 0 0x2000>;
+		#address-cells = <0>;
+		#interrupt-cells = <3>;
+		interrupt-controller;
+		interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_HIGH)>;
+	};
+	/*gic: interrupt-controller@20000000 {
+		compatible = "arm,gic-v3";
+		reg = <0x0 0x20000000 0 0x10000>,
+		      <0x0 0x20060000 0 0x40000>;
+		#address-cells = <0>;
+		#interrupt-cells = <3>;
+		interrupt-controller;
+		interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_HIGH)>;
+	};*/
+
+	timer {
+		compatible = "arm,armv8-timer";
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
+			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
+			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
+			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
+	};
+
+	soc {
+		compatible = "simple-bus";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		uart0: uart@12000000 {	/* console */
+			compatible = "arm,pl011", "arm,primecell";
+			reg = <0x0 0x12000000 0x0 0x1000>;
+			interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+			clock = <25000000>;
+			clocks = <&osc25m &osc25m>;
+			clock-names = "uartclk", "apb_pclk";
+		};
+		qspi: spi@08000000 {
+			compatible = "xlnx,xps-spi-2.00.a";
+			reg = <0x0 0x08000000 0x0 0x10000000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			spi-max-frequency = <37500000>;
+			spi-tx-bus-width = <1>;
+			spi-rx-bus-width = <1>;
+			status = "disabled";
+			spi_flash@0 {
+				compatible = "spi-flash";
+				spi-max-frequency = <37500000>;
+				spi-tx-bus-width = <1>;
+				spi-rx-bus-width = <1>;
+				reg = <0>;
+				id = <0>;
+			};
+		};
+		dwmmc0: dwmmc@28100000 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			compatible = "qchip,qchip-dwmmc";
+			reg = <0x0 0x28100000 0x0 0x1000>;
+			interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
+			data-addr = <0x200>;
+			fifo-depth = <1024>;
+			fifo-watermark-aligned;
+			clock-frequency = <25000000>;
+			clocks = <&osc25m>, <&osc25m>;
+			clock-names = "biu", "ciu";
+			bus-width = <1>;
+			max-frequency = <25000000>;
+			cap-mmc-highspeed;
+			non-removable;
+			status = "disabled";
+		};
+
+		sd0: dwmmc@11000000 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			compatible = "qchip,qchip-dwmmc";
+			reg = <0x0 0x11000000 0x0 0x1000>;
+			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+			fifo-depth = <32>;
+			data-addr = <0x200>;
+			fifo-watermark-aligned;
+			clock-frequency = <25000000>;
+			clocks = <&osc25m>, <&osc25m>;
+			clock-names = "biu", "ciu";
+			max-frequency = <50000000>;
+			cap-sd-highspeed;
+			status = "disabled";
+		};
+
+		gmac0: ethernet@16000000 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			compatible =  "snps,dwc-qos-ethernet-4.10";
+			reg = <0x0 0x16000000 0x0 0x10000>;
+			interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&osc25m>, <&osc25m>;/*, <&osc24m>, <&osc24m>, <&osc24m>;*/
+			clock-names = "apb_pclk", "phy_ref_clk";/* "slave_bus", "master_bus", "rx", "ptp_ref", "tx";*/
+			phy-mode = "rgmii";
+			phy-handle = <&phy0>;
+			status = "disabled";
+
+			mdio {
+				#address-cells = <0x1>;
+				#size-cells = <0x0>;
+				phy0: phy@17 {
+					compatible = "ethernet-phy-ieee802.3-c22";
+					device_type = "ethernet-phy";
+					reg = <0x7>;
+				};
+			};
+		};
+		gmac1: ethernet@14800000 {
+			/*compatible = "snps,dwc-xgmac";*/
+			compatible = "snps,dwxgmac";
+			reg = <0x0 0x14800000 0x0 0x4000>;
+			interrupts = <0 112 4>;
+			interrupt-names = "macirq";
+			dma-coherent;
+			status = "disabled";
+			/*phy-handle = <&phy1>;*/
+
+			fixed-link {
+				compatible = "ethernet-phy-ieee802.3-c45";
+				speed = <10000>;
+				full-duplex;
+			};
+			/*mdio0 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				compatible = "snps,dwmac-mdio";
+				phy1: ethernet-phy@1 {
+						reg = <1>;
+				};
+			};*/
+		};
+
+		gmac2: ethernet@17000000 {
+			compatible = "snps,dwxgmac";
+			reg = <0x0 0x17000000 0x0 0x4000>;
+			interrupts = <0 2 4>;
+			interrupt-names = "macirq";
+			dma-coherent;
+			/*phy-handle = <&phy2>;*/
+			status = "disabled";
+
+			fixed-link {
+				compatible = "ethernet-phy-ieee802.3-c45";
+				speed = <10000>;
+				full-duplex;
+			};
+			/*mdio0 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				compatible = "snps,dwmac-mdio";
+				phy2: ethernet-phy@2 {
+						reg = <2>;
+				};
+			};*/
+		};
+
+
+		usb: usb@28000000 {
+			compatible = "snps,dwc2";
+			reg = <0x0 0x28000000 0x0 0x40000>;
+			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&osc25m>;
+			clock-names = "otg";
+			phys = <&usbphy0>;
+			phy-names = "usb2-phy";
+			/*hnp-srp-disable;*/
+			status = "disabled";
+		};
+		usbphy0: usbphy@0 {
+			compatible = "usb-nop-xceiv";
+			#phy-cells = <0>;
+			status = "disabled";
+		};
+		hdlcd: hdlcd@28200000 {
+			compatible = "arm,pl111", "arm,primecell";
+			reg = <0 0x28200000 0 0x1000>;
+			interrupts = <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+			interrupts-names = "combined";
+			clocks = <&osc25m>, <&osc25m>;
+			clock-names = "clcdclk", "apb_pclk";
+			status = "disabled";
+
+			/*port {
+				clcd_pads: endpoint {
+					remote-endpoint = <&clcd_panel>;
+					arm,pl11x,tft-r0g0b0-pads = <0 8 16>;
+				};
+			};*/
+			port {
+					hdmi_con: endpoint {
+							remote-endpoint = <&adv7511_out>;
+					};
+			};
+
+		};
+
+		/*panel {
+			compatible = "panel-dpi";
+
+			port {
+				clcd_panel: endpoint {
+					remote-endpoint = <&clcd_pads>;
+				};
+			};
+
+			panel-timing {
+				clock-frequency = <25175000>;
+				hactive = <640>;
+				hback-porch = <40>;
+				hfront-porch = <24>;
+				hsync-len = <96>;
+				vactive = <480>;
+				vback-porch = <32>;
+				vfront-porch = <11>;
+				vsync-len = <2>;
+			};
+		};*/
+#if 0
+		gpu: gpu@12800000 {
+			compatible = "arm,mali-400", "arm,mali-utgard";
+			interrupt-parent = <&gic>;
+			reg = <0x0 0x12800000 0x0 0x40000>;
+			interrupts = <0 58 4>, <0 57 4>, <0 56 4>, <0 55 4>, <0 59 4>;
+			interrupt-names = "IRQGP", "IRQGPMMU", "IRQPP0", "IRQPPMMU0", "IRQPMU";
+			pmu_domain_config = <0x1 0x2 0x4 0x4 0x0 0x8 0x8 0x8 0x0 0x1 0x2 0x8>;
+			pmu_switch_delay = <0xffff>;
+			status = "disabled";
+		};
+
+		smmu1: iommu@20000000 {
+			compatible = "arm,mmu-500", "arm,smmu-v2";
+			reg = <0 0x20000000 0 0x10000>;
+			#global-interrupts = <3>;
+			interrupts = <0 122 4>, /* global secure fault */
+			             <0 121 4>, /* combined secure interrupt */
+			             <0 120 4>, /* performance interrupt 0 */
+			             <0 119 4>, /* per context interrupt */
+			             <0 118 4>;
+			#iommu-cells = <1>;
+			status = "disabled";
+		};
+#endif
+		i2c0: i2c@10800000 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			compatible = "snps,designware-i2c";
+			reg = <0x0 0x10800000 0x0 0x1000>;
+			interrupts = <GIC_SPI 135 IRQ_TYPE_LEVEL_HIGH>;
+			clock-frequency = <100000>;
+			clocks = <&osc50m>;
+			status = "okay";
+			adv7511: hdmi-tx@72 {
+				compatible = "adi,adv7511";
+				reg = <0x72>;
+				adi,input-depth = <8>;
+				adi,input-colorspace = "yuv422";
+				adi,input-clock = "1x";
+				adi,input-style = <3>;
+				adi,input-justification = "right";
+				
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					port@0 {
+						reg = <0>;
+						adv7511_out: endpoint {
+							remote-endpoint = <&hdmi_con>;
+						};
+					};
+				};
+
+                        };
+		};
+		i2c1: i2c@15800000 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			compatible = "snps,designware-i2c";
+			reg = <0x0 0x15800000 0x0 0x1000>;
+			interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>;
+			clock-frequency = <400000>;
+			clocks = <&osc25m>;
+			status = "disabled";
+		};
+		nand: nand@0a100000 {
+				#address-cells = <1>;
+				#size-cells = <1>;
+				compatible = "denali,denali-nand-dt", "altr,socfpga-denali-nand";
+				reg = <0x0 0x0a100000 0x0 0x100000>, <0x0 0x0a000000 0x0 0x10000>;
+				reg-names = "nand_data", "denali_reg";
+				interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
+				dma-mask = <0xffffffff>;
+				clocks = <&osc25m>;
+				status = "disabled";
+		};
+
+	};
+	amba {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "simple-bus";
+		interrupt-parent = <&gic>;
+		ranges;
+
+		pdma0: pdma@11800000 {
+			compatible = "arm,pl330", "arm,primecell";
+			reg = <0x0 0x11800000 0x0 0x1000>;
+			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&osc25m>;
+			clock-names = "apb_pclk";
+			#dma-cells = <1>;
+			#dma-channels = <8>;
+			#dma-requests = <32>;
+			status = "disabled";
+		};
+	};
+};

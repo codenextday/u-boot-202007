@@ -36,6 +36,8 @@ endif
 
 obj-$(CONFIG_FSL_LAYERSCAPE) += fsl-layerscape/
 obj-$(CONFIG_S32V234) += s32v234/
+obj-$(CONFIG_TARGET_QSERVER) += qserver/
 obj-$(CONFIG_TARGET_HIKEY) += hisilicon/
 obj-$(CONFIG_ARMV8_PSCI) += psci.o
+obj-$(CONFIG_TARGET_QSERVER) += lowlevel_init.o
 obj-$(CONFIG_ARCH_SUNXI) += lowlevel_init.o
