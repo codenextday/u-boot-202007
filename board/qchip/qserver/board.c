@@ -15,6 +15,7 @@
 #include <fdt_support.h>
 #include <asm/io.h>
 #include <bitfield.h>
+#include <env.h>
 #include <usb.h>
 #include <usb/dwc2_udc.h>
 #include <asm-generic/gpio.h>
@@ -111,6 +112,8 @@ static int module_info_init(void)
 	int i;
 
 	u32 val = readl(SYS_BOARD_INFO_REG);
+	if (!val)
+		val = 0xcb1;
 	for (i = 0; i < cnt; i++)
 		modules_info[i].valid_sel = bitfield_extract(val, modules_info[i].shift, modules_info[i].width);
 	return 0;
@@ -170,12 +173,6 @@ static struct dwc3_device dwc3_device_data = {
 	.index = 0,
 };
 
-static struct ti_usb_phy_device usb_phy_device = {
-	.pll_ctrl_base = (void *)0,
-	.usb2_phy_power = (void *)0,
-	.usb3_phy_power = (void *)0,
-	.index = 0,
-};
 
 int usb_gadget_handle_interrupts(int index)
 {
@@ -236,7 +233,7 @@ static int qserver_fixup_fdt(void *blob)
 {
 	/* fixup modules */
 	int cnt = ARRAY_SIZE(modules_info);
-	int i, type;
+	int i;
 	u32 val = readl(SYS_BOARD_INFO_REG);
 	
 
