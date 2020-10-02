@@ -66,7 +66,7 @@
 /* SPI Slave Select Register (spissr), [1] p13, [2] p13 */
 #define SPISSR_MASK(cs)		(1 << (cs))
 #define SPISSR_ACT(cs)		~SPISSR_MASK(cs)
-#define SPISSR_OFF		~0UL
+#define SPISSR_OFF		~0U
 
 /* SPI Software Reset Register (ssr) */
 #define SPISSR_RESET_VALUE	0x0a
@@ -253,7 +253,7 @@ static int xilinx_spi_xfer(struct udevice *dev, unsigned int bitlen,
 	unsigned char *rxp = din;
 	u32 txbytes = bytes;
 	u32 rxbytes = bytes;
-	u32 reg, count, timeout;
+	u32 reg, count;
 	int ret;
 
 	debug("spi_xfer: bus:%i cs:%i bitlen:%i bytes:%i flags:%lx\n",
