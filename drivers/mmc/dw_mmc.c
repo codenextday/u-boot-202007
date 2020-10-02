@@ -420,6 +420,7 @@ static int dwmci_setup_bus(struct dwmci_host *host, u32 freq)
 		return -EINVAL;
 	}
 
+	debug("%s: %d -> %d\n", __func__, sclk, freq);
 	if (sclk == freq)
 		div = 0;	/* bypass mode */
 	else
@@ -599,9 +600,13 @@ void dwmci_setup_cfg(struct mmc_config *cfg, struct dwmci_host *host,
 	if (host->buswidth == 8) {
 		cfg->host_caps |= MMC_MODE_8BIT;
 		cfg->host_caps &= ~MMC_MODE_4BIT;
-	} else {
+	} else if (host->buswidth == 4)  {
 		cfg->host_caps |= MMC_MODE_4BIT;
 		cfg->host_caps &= ~MMC_MODE_8BIT;
+	} else {
+		cfg->host_caps |= MMC_MODE_1BIT;
+		cfg->host_caps &= ~MMC_MODE_8BIT;
+		cfg->host_caps &= ~MMC_MODE_4BIT;
 	}
 	cfg->host_caps |= MMC_MODE_HS | MMC_MODE_HS_52MHz;
 

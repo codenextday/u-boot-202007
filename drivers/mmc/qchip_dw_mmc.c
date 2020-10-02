@@ -10,6 +10,8 @@
 #include <malloc.h>
 #include <errno.h>
 #include <dm.h>
+#include <dm/device.h>
+#include <dm/ofnode.h>
 
 #define	DWMMC_MAX_CH_NUM		4
 #define	DWMMC_MAX_FREQ			25000000
@@ -132,6 +134,7 @@ static int qserver_dwmci_get_config(const void *blob, int node,
 
 	host->fifoth_val = fdtdec_get_int(blob, node, "fifoth_val", 0);
 	host->bus_hz = fdtdec_get_int(blob, node, "clock-frequency", 0);
+	host->buswidth = fdtdec_get_int(blob, node, "bus-width", 0);
 	/*host->div = fdtdec_get_int(blob, node, "div", 0);*/
 
 	host->priv = priv;
@@ -146,6 +149,7 @@ static int qserver_dwmmc_probe(struct udevice *dev)
 	struct mmc_uclass_priv *upriv = dev_get_uclass_priv(dev);
 	struct qserver_dwmmc_priv *priv = dev_get_priv(dev);
 	struct dwmci_host *host = &priv->host;
+	ofnode node;
 	int err;
 	printf("%s\n", __func__);
 	err = qserver_dwmci_get_config(gd->fdt_blob, dev_of_offset(dev), host);
@@ -156,7 +160,12 @@ static int qserver_dwmmc_probe(struct udevice *dev)
 		return err;
 
 	dwmci_setup_cfg(&plat->cfg, host, DWMMC_MAX_FREQ, DWMMC_MIN_FREQ);
-	plat->cfg.part_type = PART_TYPE_OF;
+	node = ofnode_find_subnode(dev->node, "partitions");
+	if (ofnode_valid(node)) {
+		plat->cfg.part_type = PART_TYPE_OF;
+	}
+	/*else
+		plat->cfg.part_type = PART_TYPE_DOS;*/
 	host->mmc = &plat->mmc;
 	host->mmc->priv = &priv->host;
 	host->priv = dev;

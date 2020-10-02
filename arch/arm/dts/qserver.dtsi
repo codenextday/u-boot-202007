@@ -314,6 +314,7 @@
 			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
 			fifo-depth = <32>;
 			data-addr = <0x200>;
+			bus-width = <1>;
 			fifo-watermark-aligned;
 			clock-frequency = <25000000>;
 			clocks = <&osc25m>, <&osc25m>;
