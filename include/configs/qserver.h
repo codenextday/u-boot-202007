@@ -19,6 +19,7 @@
 
 #define CONFIG_SYS_BOOTM_LEN	(64 << 20)
 
+/*#define QSERVER_TIMER_FREQ 10000000*/
 /* Physical Memory Map */
 #define CONFIG_SYS_SDRAM_BASE		0x40000000
 #define CONFIG_SYS_SDRAM_SIZE		0x40000000
@@ -30,7 +31,7 @@
 
 
 /* Generic Interrupt Controller Definitions */
-#define CONFIG_GICV3
+/*#define CONFIG_GICV3*/
 #ifdef CONFIG_GICV3
 #define GICD_BASE			0x20000000
 #define GICR_BASE			0x20060000
