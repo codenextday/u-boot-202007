@@ -41,6 +41,7 @@
 #define DFU_ALT_BUF_LEN SZ_1K
 struct qchip_upgrade_data {
 	unsigned long addr;
+	unsigned int have_init;
 	char *image_name;
 	char *part_name;
 	char *src_interface;
@@ -58,6 +59,22 @@ static int get_storage_dev(char **interface, char **devstring)
 	}
 }
 #endif
+
+static char* image_to_part(char *image_name) {
+	char *part;
+	if (!strcmp(image_name,  BOOT_FILE_NAME))
+		part = "boot0";
+	else if (!strcmp(image_name, KERNEL_FILE_NAME))
+		part = "kernel";
+	else if (!strcmp(image_name, ROOTFS_FILE_NAME))
+		part = "rootfs";
+	else if (!strcmp(image_name, FITIMAGE_FILE_NAME))
+		part = "all";
+	else
+		part = NULL;
+	return part;
+}
+
 void set_dfu_alt_info_mmc(struct udevice *dev, char *buf)
 {
 	struct disk_partition info;
@@ -83,30 +100,28 @@ void set_dfu_alt_info_mmc(struct udevice *dev, char *buf)
 	len = strlen(buf);
 
 	if (buf[0] != '\0')
-		len += snprintf(buf + len,
-			DFU_ALT_BUF_LEN - len, "&");
+		len += snprintf(buf + len, DFU_ALT_BUF_LEN - len, "&");
 	len += snprintf(buf + len, DFU_ALT_BUF_LEN - len,
 		"%s %d=", name, devnum);
 
 	if (IS_MMC(mmc) && mmc->capacity_boot) {
 		len += snprintf(buf + len, DFU_ALT_BUF_LEN - len,
-			"bootloader0 raw 0x0 0x%llx mmcpart 1;",
+			"boot0 raw 0x0 0x%llx mmcpart 1;",
 			mmc->capacity_boot);
 		len += snprintf(buf + len, DFU_ALT_BUF_LEN - len,
-			"bootloader1 raw 0x0 0x%llx mmcpart 2",
+			"boot1 raw 0x0 0x%llx mmcpart 2",
 			 mmc->capacity_boot);
 		first = false;
 	}
 
 	for (p = 1; p < MAX_SEARCH_PARTITIONS; p++) {
-		if (part_get_info(desc, p, &info))
-			continue;
+		int ret = part_get_info(desc, p, &info);
 		/* DOS part type means that the mmc is a source device */
-		if (desc->part_type == PART_TYPE_DOS) {
-			len += snprintf(buf + len, DFU_ALT_BUF_LEN - len, "%s fat %d %d", FITIMAGE_FILE_NAME, devnum, p);
-			len += snprintf(buf + len, DFU_ALT_BUF_LEN - len, "%s fat %d %d", BOOT_FILE_NAME, devnum, p);
-			len += snprintf(buf + len, DFU_ALT_BUF_LEN - len, "%s fat %d %d", KERNEL_FILE_NAME, devnum, p);
-			len += snprintf(buf + len, DFU_ALT_BUF_LEN - len, "%s fat %d %d", ROOTFS_FILE_NAME, devnum, p);
+		if ((desc->part_type == PART_TYPE_DOS) || (ret)) {
+			len += snprintf(buf + len, DFU_ALT_BUF_LEN - len, "%simg fat %d %d;", image_to_part(FITIMAGE_FILE_NAME), devnum, p);
+			len += snprintf(buf + len, DFU_ALT_BUF_LEN - len, "%simg fat %d %d;", image_to_part(BOOT_FILE_NAME), devnum, p);
+			len += snprintf(buf + len, DFU_ALT_BUF_LEN - len, "%simg fat %d %d;", image_to_part(KERNEL_FILE_NAME), devnum, p);
+			len += snprintf(buf + len, DFU_ALT_BUF_LEN - len, "%simg fat %d %d", image_to_part(ROOTFS_FILE_NAME), devnum, p);
 			break;
 		}
 		if (!first)
@@ -125,7 +140,7 @@ void set_dfu_alt_info(char *interface, char *devstr)
 	/*struct mtd_info *mtd;*/
 
 	ALLOC_CACHE_ALIGN_BUFFER(char, buf, DFU_ALT_BUF_LEN);
-
+	printf("set dfu info\n");
 	if (env_get("dfu_alt_info"))
 		return;
 
@@ -147,19 +162,6 @@ void set_dfu_alt_info(char *interface, char *devstr)
 	log_info("DFU alt info setting: done\n");
 }
 
-static char* image_to_part(char *image_name)
-{
-	char *part;
-	if (!strcmp(image_name,  BOOT_FILE_NAME))
-		part = "boot0";
-	else if (!strcmp(image_name, KERNEL_FILE_NAME))
-		part = "kernel";
-	else if (!strcmp(image_name, ROOTFS_FILE_NAME))
-		part = "rootfs"; 
-	else
-		part = NULL;
-	return part;
-}
 
 static int upgrade_raw_images(struct qchip_upgrade_data *data, u64 size)
 {
@@ -391,10 +393,12 @@ static int do_upgrade(struct cmd_tbl *cmdtp, int flag, int argc, char *const arg
 
 	if (argc < 2)
 		return CMD_RET_USAGE;
-	qchip_udata = malloc(sizeof(*qchip_udata));
-	if (!qchip_udata)
-		return CMD_RET_USAGE;
-	memset(qchip_udata, 0, sizeof(*qchip_udata));
+	if (!qchip_udata) {
+		qchip_udata = malloc(sizeof(*qchip_udata));
+		if (!qchip_udata)
+			return CMD_RET_USAGE;
+		memset(qchip_udata, 0, sizeof(*qchip_udata));
+	}
 
 	qchip_udata->part_name = argv[1];
 	if (!strcmp(argv[1], "boot")) {
@@ -416,6 +420,14 @@ static int do_upgrade(struct cmd_tbl *cmdtp, int flag, int argc, char *const arg
 		qchip_udata->src_interface = argv[2];
 	} else {
 		qchip_udata->src_interface = "tftp";
+	}
+
+	if (!qchip_udata->have_init) {
+		ret = dfu_init_env_entities(NULL, NULL);
+		if (ret) {
+			return -EINVAL;
+		}
+		qchip_udata->have_init = 1;
 	}
 
 	ret = set_src_dest_dfu(qchip_udata);
