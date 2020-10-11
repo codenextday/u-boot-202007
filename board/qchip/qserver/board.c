@@ -235,7 +235,10 @@ static int qserver_fixup_fdt(void *blob)
 	int cnt = ARRAY_SIZE(modules_info);
 	int i;
 	u32 val = readl(SYS_BOARD_INFO_REG);
-	
+	if (!val) {
+		val = 0xcb1;
+		writel(val, SYS_BOARD_INFO_REG);
+	}
 
 	printf("Fixup fdt for %x\n", readl(SYS_BOARD_INFO_REG));
 	
