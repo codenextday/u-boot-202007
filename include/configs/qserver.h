@@ -41,7 +41,7 @@
 #endif
 
 /* Size of malloc() pool */
-#define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + SZ_8M)
+#define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + SZ_16M)
 
 /* Serial port PL010/PL011 through the device model */
 #define CONFIG_SYS_BAUDRATE_TABLE \
